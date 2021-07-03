@@ -74,4 +74,5 @@ header{
 .play_button:hover .play_button_text{
 	font-size: 100px;
 	color:#6BD152 ;
+	cursor: pointer;
 }
