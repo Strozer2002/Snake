@@ -16,6 +16,7 @@ header{
 	border: 1px green solid;
 	border-radius: 50px;
 	align-items: center;
+	margin-top: 5px;
 }
 .header_logo{
 	display: flex;
