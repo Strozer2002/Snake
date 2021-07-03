@@ -1,5 +1,5 @@
 body{
-	background: url(wallpapers/1.jpg) no-repeat;
+	background: url(wallpapers/1.jpg) no-repeat fixed;
 	background-size: cover;
 }
 canvas {
