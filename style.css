@@ -1,13 +1,25 @@
 body{
 	background: white;
 	font-family: 'Tourney', cursive;
+	margin: 0;
+	padding: 0;
 }
 
 .header_logo{
 	display: flex;
+	position: relative;
+	padding-top: 10px;
+	background: purple;
+}
+.header_logoImg{
+	margin-left: 25px;
 }
 .header_logoText{
-	font-size: 40px;
+	font-size: 64px;
 	font-weight: bolder;
 	color: #6BD152;
+	
+}
+.header_logoText_text{
+	margin: 32px 16px;
 }
