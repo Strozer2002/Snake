@@ -5,7 +5,13 @@ body{
 	margin: 0;
 	padding: 0;
 }
-
+a{
+	text-decoration: none;
+	color: black;
+}
+a:hover{
+	text-decoration: none;
+}
 
 /* Header */
 header{
@@ -66,8 +72,9 @@ header{
 	height: 300px;
 	width: 300px;
 	border-radius: 50%;
-
+	
 }
+
 .play_button_text{
 	font-size: 64px;
 	transition: font-size linear 0.5s , color linear 0.5s;

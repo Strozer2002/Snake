@@ -40,15 +40,16 @@ function direction(event){
 		dir = "down";
 }
 
-function lose(){
+function lose(loseText){
 	clearInterval(game);
-	alert("Вы проиграли");
+	alert(loseText);
+	location.reload();
 }
 
 function eatTail(head , arr){
 	for (let i=0; i<arr.length; i++){
 		if (head.x ==arr[i].x && head.y ==arr[i].y ){
-			lose();
+			lose("Не будьте ганибалом , змеи не любят змеинное мясо.\n Ваш счет : " + score);
 		}
 	}
 }
@@ -83,7 +84,7 @@ function drawGame() {
 
 
 	if(snakeX < box || snakeX > box * 17 || snakeY < 3 * box || snakeY > box * 17){
-		lose();
+		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " + score);
 	}
 
 	
