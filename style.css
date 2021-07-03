@@ -13,7 +13,7 @@ header{
 	justify-content: space-between;
 	padding: 5px 0;
 	background: #b5ff9e;
-	border: 1px green solid;
+	border: 4px #6BD152 solid;
 	border-radius: 50px;
 	align-items: center;
 	margin-top: 5px;
@@ -62,7 +62,7 @@ header{
 	margin:0 auto;
 	margin-top: 50px;
 	background: #B5FF9E;
-	border: 2px green solid;
+	border: 10px #6BD152 solid;
 	height: 300px;
 	width: 300px;
 	border-radius: 50%;
