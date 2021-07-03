@@ -1,15 +1,23 @@
 body{
-	background: white;
+	background: green;
 	font-family: 'Tourney', cursive;
 	margin: 0;
 	padding: 0;
 }
 
+
+/* Header */
+header{
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+	background: #b5ff9e;
+	border: 1px green solid;
+	border-radius: 50px;
+	align-items: center;
+}
 .header_logo{
 	display: flex;
-	position: relative;
-	padding-top: 10px;
-	background: purple;
 }
 .header_logoImg{
 	margin-left: 25px;
@@ -21,5 +29,18 @@ body{
 	
 }
 .header_logoText_text{
+	margin: 32px 16px;
+}
+
+
+.header_links{
+	display: flex;
+	flex: row;
+	margin-right: 25px;
+	font-size: 32px;
+	padding-top: 10px;
+	color: #6BD152;
+}
+.header_links > *{
 	margin: 32px 16px;
 }
