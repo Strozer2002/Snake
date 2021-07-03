@@ -50,3 +50,28 @@ header{
 	cursor: pointer;
 	border-bottom: 2px green solid ;
 }
+
+/* Button */
+
+.play_button{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	margin:0 auto;
+	margin-top: 50px;
+	background: #B5FF9E;
+	border: 2px green solid;
+	height: 300px;
+	width: 300px;
+	border-radius: 50%;
+
+}
+.play_button_text{
+	font-size: 64px;
+	transition: font-size linear 0.5s , color linear 0.5s;
+}
+.play_button:hover .play_button_text{
+	font-size: 100px;
+	color:#6BD152 ;
+}
