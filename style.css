@@ -7,7 +7,7 @@ body{
 	display: flex;
 }
 .header_logoText{
-	font-size: 36px;
+	font-size: 40px;
 	font-weight: bolder;
-	color: green;
+	color: #6BD152;
 }
