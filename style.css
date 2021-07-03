@@ -1,5 +1,6 @@
 body{
-	background: green;
+	background: url(assets/wallpapers/zelenaya-zmeya.jpg) no-repeat fixed;
+	background-size: cover;
 	font-family: 'Tourney', cursive;
 	margin: 0;
 	padding: 0;
@@ -10,7 +11,7 @@ body{
 header{
 	display: flex;
 	justify-content: space-between;
-	padding: 10px 0;
+	padding: 5px 0;
 	background: #b5ff9e;
 	border: 1px green solid;
 	border-radius: 50px;
