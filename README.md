@@ -1,2 +1,2 @@
 # Snake
-Application
+Эта игра созданная на JS.
