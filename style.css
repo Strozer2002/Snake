@@ -24,7 +24,7 @@ header{
 }
 .header_logoText{
 	font-size: 64px;
-	font-weight: bolder;
+	font-weight: 600;
 	color: #6BD152;
 	
 }
@@ -41,6 +41,11 @@ header{
 	padding-top: 10px;
 	color: #6BD152;
 }
-.header_links > *{
-	margin: 32px 16px;
+.header_links *{
+	margin: 0 16px;
+	transition: border-bottom linear  0.2s ;
+}
+.header_links *:hover{
+	cursor: pointer;
+	border-bottom: 2px green solid ;
 }
