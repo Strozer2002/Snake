@@ -1,3 +1,13 @@
 body{
 	background: white;
+	font-family: 'Tourney', cursive;
+}
+
+.header_logo{
+	display: flex;
+}
+.header_logoText{
+	font-size: 36px;
+	font-weight: bolder;
+	color: green;
 }
