@@ -178,11 +178,8 @@ function drawGame() {
 				 		do {
 				    	currentDate = Date.now();
 				  	} while (currentDate - date < milliseconds);
-				}
-				
+				}			
 				sleep(200);
-				
-				
 		}
 	}
 	
