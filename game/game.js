@@ -11,6 +11,9 @@ ground.src = "gameAssets/ground.png";
 const mouseImg = new Image();
 mouseImg.src = "gameAssets/mouse.png";
 
+const grassImg = new Image();
+grassImg.src ="gameAssets/grass.png";
+
 
 / Пиксели одной ячейки поли /
 let box = 16;
@@ -23,6 +26,7 @@ let mouse = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
+
 / Координаты воды /
 let water = [];
 const WaterCount = 5;
@@ -33,9 +37,19 @@ for(let i =0 ; i < WaterCount; i++){
 		y: Math.floor((Math.random() * 25 + 6)) * box, 
 	};
 }
-for(let i = 0 ; i < WaterCount ; i++){
-		console.log(water[i].x , water[i].y );
-};
+
+
+/ Координаты травы /
+let grass = [];
+const grassCount = 10;
+const grassS = 5;
+for(let i =0 ; i < grassCount; i++){
+	grass[i] = {
+		x: Math.floor((Math.random() * 46 + 2)) * box,
+		y: Math.floor((Math.random() * 26 + 6)) * box, 
+	};
+}
+
 
 / Начало змеи в центре поля /
 let snake = [];
@@ -89,13 +103,15 @@ function drawGame() {
 	
 	/ Вода  /
 	var gradient = ctx.createLinearGradient(32,96, 832,96);
-
-	
 	gradient.addColorStop(0, '#14557b');
 	gradient.addColorStop(1, '#7fcec5');
 	for (var i = 0; i < WaterCount ; i++) {
 		ctx.fillStyle = gradient;
-		ctx.fillRect( water[i].x , water[i].y , box*WaterS, box*WaterS);
+		ctx.fillRect(water[i].x , water[i].y , box *WaterS, box *WaterS);
+	}
+	/ Трава /
+	for (var i = 0; i < grassCount ; i++) {
+		ctx.drawImage(grassImg , grass[i].x , grass[i].y);
 	}
 	
 	/ Змея /
