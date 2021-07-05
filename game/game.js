@@ -42,7 +42,6 @@ for(let i =0 ; i < WaterCount; i++){
 / Координаты травы /
 let grass = [];
 const grassCount = 10;
-const grassS = 5;
 for(let i =0 ; i < grassCount; i++){
 	grass[i] = {
 		x: Math.floor((Math.random() * 46 + 2)) * box,
@@ -83,6 +82,19 @@ function lose(loseText){
 	location.reload();
 }
 
+function stop(){
+	if(dir == "left") snakeX +=box;
+	if(dir == "right") snakeX -=box;
+	if(dir == "up") snakeY +=box;
+	if(dir == "down") snakeY -=box;
+}
+function go(){
+	if(dir == "left") snakeX -=box;
+	if(dir == "right") snakeX +=box;
+	if(dir == "up") snakeY -=box;
+	if(dir == "down") snakeY +=box;
+}
+
 / Работа с поеданием себя /
 function eatTail(head , arr){
 	for (let i=0; i<arr.length; i++){
@@ -107,7 +119,7 @@ function drawGame() {
 	gradient.addColorStop(1, '#7fcec5');
 	for (var i = 0; i < WaterCount ; i++) {
 		ctx.fillStyle = gradient;
-		ctx.fillRect(water[i].x , water[i].y , box *WaterS, box *WaterS);
+		ctx.fillRect( water[i].x , water[i].y, box *WaterS, box *WaterS);
 	}
 	/ Трава /
 	for (var i = 0; i < grassCount ; i++) {
@@ -155,6 +167,30 @@ function drawGame() {
 				if(dir == "down") snakeY +=box;
 		}
 	}
+	
+	/ Попадание на траву /
+	for(let i = 0 ; i< grassCount ; i++){
+		if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*3) 
+			&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y  + box*3) ){
+				function sleep(milliseconds) {
+				 	const date = Date.now();
+				 	let currentDate = null;
+				 		do {
+				    	currentDate = Date.now();
+				  	} while (currentDate - date < milliseconds);
+				}
+				if(dir == "left") snakeX +=box;
+				if(dir == "right") snakeX -=box;
+				if(dir == "up") snakeY +=box;
+				if(dir == "down") snakeY -=box;
+				sleep(timeRequest * 2);
+				if(dir == "left") snakeX -=box;
+				if(dir == "right") snakeX +=box;
+				if(dir == "up") snakeY -=box;
+				if(dir == "down") snakeY +=box;
+		}
+	}
+	
 
 	/ Если мышка очутилась в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
@@ -166,7 +202,7 @@ function drawGame() {
 			};
 		}
 	}
-	
+
 	
 
 	/ Проигрыш при выходе за поле  /
