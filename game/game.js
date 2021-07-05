@@ -1,8 +1,8 @@
 
-/ Работа с канвасом /
+/ Работа с канвасом и частотой кадров/
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-
+const timeRequest = 75;
 
 / Пути к картинкам мышки и земли /
 const ground = new Image();
@@ -22,6 +22,19 @@ let score = 0;
 let mouse = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
+};
+/ Координаты воды /
+let water = [];
+const WaterCount = 5;
+const WaterS = 5;
+for(let i =0 ; i < WaterCount; i++){
+	water[i] = {
+		x: Math.floor((Math.random() * 45 + 2)) * box,
+		y: Math.floor((Math.random() * 25 + 6)) * box, 
+	};
+}
+for(let i = 0 ; i < WaterCount ; i++){
+		console.log(water[i].x , water[i].y );
 };
 
 / Начало змеи в центре поля /
@@ -67,22 +80,42 @@ function eatTail(head , arr){
 
 / Основная функция прорисовки поля и всего /
 function drawGame() {
+	
 	/ Поле /
 	ctx.drawImage(ground , 0 , 0);
+	
 	/ Мышь(еда) /
 	ctx.drawImage(mouseImg , mouse.x , mouse.y);
+	
+	/ Вода  /
+	var gradient = ctx.createLinearGradient(32,96, 832,96);
+
+	
+	gradient.addColorStop(0, '#14557b');
+	gradient.addColorStop(1, '#7fcec5');
+	for (var i = 0; i < WaterCount ; i++) {
+		ctx.fillStyle = gradient;
+		ctx.fillRect( water[i].x , water[i].y , box*WaterS, box*WaterS);
+	}
+	
 	/ Змея /
 	for(let i = 0 ; i<snake.length ; i++){
 		ctx.fillStyle = i == 0 ? "green" : "#27D507";
 		ctx.fillRect(snake[i].x , snake[i].y , box, box);
 	}
+	
 	/ Счетчик /
 	ctx.fillStyle = "white";
 	ctx.font = "50px Arial ";
 	ctx.fillText(score , box*5 , box * 3.2);
+	
+
+	
+	
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
 	let snakeY = snake[0].y;
+	
 	/ Прорисовка новой мыши при поедании /
 	if(snakeX == mouse.x && snakeY == mouse.y ){
 		score++;
@@ -93,6 +126,32 @@ function drawGame() {
 	} else{
 		snake.pop();
 	}
+
+	
+	/ Попадание на воду /
+
+	for(let i = 0 ; i< WaterCount ; i++){
+		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
+			&& (snakeY >= water[i].y && snakeY <= water[i].y + (box*(WaterS- 1))) ) {
+				if(dir == "left") snakeX -=box;
+				if(dir == "right") snakeX +=box;
+				if(dir == "up") snakeY -=box;
+				if(dir == "down") snakeY +=box;
+		}
+	}
+
+	/ Если мышка очутилась в воде /
+	for(let i = 0 ; i< WaterCount ; i++){
+		if ( (mouse.x >= water[i].x && mouse.x <= water[i].x + (box*(WaterS- 1))) 
+			&& (mouse.y >= water[i].y && mouse.y <= water[i].y + (box*(WaterS- 1))) ) {
+				mouse = {
+					x: Math.floor((Math.random() * 50 + 2)) * box,
+					y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
+	
+	
 
 	/ Проигрыш при выходе за поле  /
 	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
@@ -105,11 +164,14 @@ function drawGame() {
 	if(dir == "right") snakeX +=box;
 	if(dir == "up") snakeY -=box;
 	if(dir == "down") snakeY +=box;
+	
 	/ Прорисовка новой части змеи при поедании /
 	let newHead = {
 		x:snakeX,
 		y:snakeY
 	};
+
+
 
 	/ Поедание себя /
 	eatTail(newHead , snake);
@@ -117,4 +179,4 @@ function drawGame() {
 	snake.unshift(newHead);
 }
 / Вызов игры в интервале 0.075 сек.(далее это будет в зависимости от уровня сложности) /
-let game = setInterval(drawGame, 75);
+let game = setInterval(drawGame, timeRequest);
