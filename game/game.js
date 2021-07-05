@@ -179,15 +179,10 @@ function drawGame() {
 				    	currentDate = Date.now();
 				  	} while (currentDate - date < milliseconds);
 				}
-				if(dir == "left") snakeX +=box;
-				if(dir == "right") snakeX -=box;
-				if(dir == "up") snakeY +=box;
-				if(dir == "down") snakeY -=box;
-				sleep(timeRequest * 2);
-				if(dir == "left") snakeX -=box;
-				if(dir == "right") snakeX +=box;
-				if(dir == "up") snakeY -=box;
-				if(dir == "down") snakeY +=box;
+				
+				sleep(200);
+				
+				
 		}
 	}
 	
