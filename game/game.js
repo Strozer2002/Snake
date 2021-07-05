@@ -13,22 +13,22 @@ mouseImg.src = "gameAssets/mouse.png";
 
 
 / Пиксели одной ячейки поли /
-let box = 32;
+let box = 16;
 
 / Счет /
 let score = 0;
 
 / Координаты мышки /
 let mouse = {
-	x: Math.floor((Math.random() * 17 + 1)) * box,
-	y: Math.floor((Math.random() * 15 + 3)) * box, 
+	x: Math.floor((Math.random() * 50 + 2)) * box,
+	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
 
 / Начало змеи в центре поля /
 let snake = [];
 snake[0] = {
-	x: 9 * box,
-	y: 10 * box,
+	x: 26 * box,
+	y: 20 * box,
 };
 
 / Вызов нажатия клавиш /
@@ -69,17 +69,17 @@ function eatTail(head , arr){
 function drawGame() {
 	/ Поле /
 	ctx.drawImage(ground , 0 , 0);
-	/ Мышь /
+	/ Мышь(еда) /
 	ctx.drawImage(mouseImg , mouse.x , mouse.y);
 	/ Змея /
 	for(let i = 0 ; i<snake.length ; i++){
-		ctx.fillStyle = i == 0 ? "green" : "lime";
+		ctx.fillStyle = i == 0 ? "green" : "#27D507";
 		ctx.fillRect(snake[i].x , snake[i].y , box, box);
 	}
 	/ Счетчик /
 	ctx.fillStyle = "white";
 	ctx.font = "50px Arial ";
-	ctx.fillText(score , box*2.5 , box * 1.7);
+	ctx.fillText(score , box*5 , box * 3.2);
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
 	let snakeY = snake[0].y;
@@ -87,15 +87,15 @@ function drawGame() {
 	if(snakeX == mouse.x && snakeY == mouse.y ){
 		score++;
 		mouse = {
-			x: Math.floor((Math.random() * 17 + 1)) * box,
-			y: Math.floor((Math.random() * 15 + 3)) * box, 
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
 		};
 	} else{
 		snake.pop();
 	}
 
 	/ Проигрыш при выходе за поле  /
-	if(snakeX < box || snakeX > box * 17 || snakeY < 3 * box || snakeY > box * 17){
+	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
 		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " + score);
 	}
 
@@ -116,5 +116,5 @@ function drawGame() {
 	/ Добавление новой части змеи /
 	snake.unshift(newHead);
 }
-/ Вызов игры в интервале 0.1 сек.(далее это будет в зависимости от уровня сложности) /
-let game = setInterval(drawGame, 100);
+/ Вызов игры в интервале 0.075 сек.(далее это будет в зависимости от уровня сложности) /
+let game = setInterval(drawGame, 75);
