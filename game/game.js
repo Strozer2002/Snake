@@ -223,4 +223,4 @@ function drawGame() {
 	snake.unshift(newHead);
 }
 / Вызов игры в интервале 0.075 сек.(далее это будет в зависимости от уровня сложности) /
-let game = setInterval(drawGame, timeRequest);
+let game = setInterval(drawGame, timeRequest * 2);
