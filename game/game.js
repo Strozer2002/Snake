@@ -23,7 +23,7 @@ let score = 0;
 
 / Время /
 let time = setInterval(timer , 1000);
-
+let timeLimit = setInterval(timerLimit , 1000);
 
 / Координаты мышки /
 let mouse = {
@@ -80,7 +80,15 @@ function direction(event){
 		dir = "down";
 }
 / Работа счетчика времени /
+let timeRemainingEnd = 0;
+let timeRemaining = 10;
 let timeCounter = 0;
+function timerLimit(){
+	timeRemainingEnd = timeRemaining - timeCounter % 10;
+	if (timeCounter% 10 == 0){
+		timeRemainingEnd = 0;
+	}
+}
 function timer(){
 	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
 }
@@ -158,7 +166,10 @@ function drawGame() {
 	ctx.fillStyle = "white";
 	ctx.font = "25px Arial ";
 	ctx.fillText(timeCounter +" сек" , box*45 , box * 2.8);
-
+	/ Счетчик оставшегося времени для поедания мыши времени /
+	ctx.fillStyle = "red";
+	ctx.font = "50px Arial ";
+	ctx.fillText(timeRemainingEnd , box*25 , box * 3.4);
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
 	let snakeY = snake[0].y;
@@ -196,8 +207,8 @@ function drawGame() {
 
 	/ Новая мышка при каждой 10 сек/
 
-	if ( timeCounter % 10 == 0 && timeCounter != 0){
-		let mouse2 = {
+	if ( timeRemainingEnd == 0 && timeCounter != 0){
+		mouse = {
 			x: Math.floor((Math.random() * 50 + 2)) * box,
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
 		};
