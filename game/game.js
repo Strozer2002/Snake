@@ -2,7 +2,7 @@
 / Работа с канвасом и частотой кадров/
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-const timeRequest = 75;
+const timeRequest = 100;
 
 / Пути к картинкам мышки и земли /
 const ground = new Image();
@@ -48,6 +48,10 @@ for(let i =0 ; i < grassCount; i++){
 		y: Math.floor((Math.random() * 26 + 6)) * box, 
 	};
 }
+for (let i = 0; i<grassCount ; i++){
+	console.log(grass[i].x , grass[i].y );
+}
+
 
 
 / Начало змеи в центре поля /
@@ -103,6 +107,13 @@ function eatTail(head , arr){
 		}
 	}
 }
+/ Функция управления скоростью змеи/
+function speed(count){
+	clearTimeout(game);
+	game =setTimeout(drawGame,timeRequest * count);
+}
+
+
 
 / Основная функция прорисовки поля и всего /
 function drawGame() {
@@ -155,28 +166,36 @@ function drawGame() {
 		snake.pop();
 	}
 
+
+	/ Настройка обычного хода змеи/
+	speed(1);
 	
+
 	/ Попадание на воду /
 
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
 			&& (snakeY >= water[i].y && snakeY <= water[i].y + (box*(WaterS- 1))) ) {
-				if(dir == "left") snakeX -=box;
-				if(dir == "right") snakeX +=box;
-				if(dir == "up") snakeY -=box;
-				if(dir == "down") snakeY +=box;
+			speed(1/10);
 		}
 	}
 	
-	/ Попадание на траву /
-	for(let i = 0 ; i< grassCount ; i++){
-		if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*3) 
-			&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y  + box*3) ){
-				timeRequest = 50;				
-		}
-	}
 	
 
+	/ Попадание на траву /
+	
+	for(let i =0 ; i < grassCount ; i++){
+		if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*2) 
+			&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y + box + box*2) ){
+			speed(1.5);
+		}
+	}
+	
+	
+	
+	
+
+	
 	/ Если мышка очутилась в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (mouse.x >= water[i].x && mouse.x <= water[i].x + (box*(WaterS- 1))) 
@@ -215,5 +234,6 @@ function drawGame() {
 	/ Добавление новой части змеи /
 	snake.unshift(newHead);
 }
-/ Вызов игры в интервале 0.075 сек.(далее это будет в зависимости от уровня сложности) /
-let game = setInterval(drawGame, timeRequest * 2);
+/* Вызов игры в интервале 0.075 сек.(далее это будет в зависимости от уровня сложности) */
+
+var game = setTimeout(drawGame, timeRequest * 2);
