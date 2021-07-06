@@ -6,7 +6,7 @@ const timeRequest = 100;
 
 / Пути к картинкам мышки и земли /
 const ground = new Image();
-ground.src = "gameAssets/ground2.png";
+ground.src = "gameAssets/ground3.png";
 
 const mouseImg = new Image();
 mouseImg.src = "gameAssets/mouse.png";
