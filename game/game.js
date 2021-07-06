@@ -172,14 +172,7 @@ function drawGame() {
 	for(let i = 0 ; i< grassCount ; i++){
 		if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*3) 
 			&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y  + box*3) ){
-				function sleep(milliseconds) {
-				 	const date = Date.now();
-				 	let currentDate = null;
-				 		do {
-				    	currentDate = Date.now();
-				  	} while (currentDate - date < milliseconds);
-				}			
-				sleep(200);
+				timeRequest = 50;				
 		}
 	}
 	
