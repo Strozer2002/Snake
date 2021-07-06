@@ -6,7 +6,7 @@ const timeRequest = 100;
 
 / Пути к картинкам мышки и земли /
 const ground = new Image();
-ground.src = "gameAssets/ground.png";
+ground.src = "gameAssets/ground1.png";
 
 const mouseImg = new Image();
 mouseImg.src = "gameAssets/mouse.png";
@@ -20,6 +20,10 @@ let box = 16;
 
 / Счет /
 let score = 0;
+
+/ Время /
+let time = setInterval(timer , 1000);
+
 
 / Координаты мышки /
 let mouse = {
@@ -41,17 +45,13 @@ for(let i =0 ; i < WaterCount; i++){
 
 / Координаты травы /
 let grass = [];
-const grassCount = 10;
+const grassCount = 20;
 for(let i =0 ; i < grassCount; i++){
 	grass[i] = {
 		x: Math.floor((Math.random() * 46 + 2)) * box,
 		y: Math.floor((Math.random() * 26 + 6)) * box, 
 	};
 }
-for (let i = 0; i<grassCount ; i++){
-	console.log(grass[i].x , grass[i].y );
-}
-
 
 
 / Начало змеи в центре поля /
@@ -67,6 +67,7 @@ document.addEventListener("keydown", direction);
 / Переменная для работы с клавишами /
 let dir;
 
+
 / Работа с клавишами (стрелок) /
 function direction(event){
 	if(event.keyCode == 37 && dir != "right")
@@ -78,7 +79,11 @@ function direction(event){
 	else if(event.keyCode == 40 && dir != "up")
 		dir = "down";
 }
-
+/ Работа счетчика времени /
+let timeCounter = 0;
+function timer(){
+	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
+}
 / Работа с проигрышем и перезагрузка страницы/
 function lose(loseText){
 	clearInterval(game);
@@ -102,8 +107,9 @@ function go(){
 / Работа с поеданием себя /
 function eatTail(head , arr){
 	for (let i=0; i<arr.length; i++){
-		if (head.x ==arr[i].x && head.y ==arr[i].y ){
-			lose("Не будьте ганибалом , змеи не любят змеинное мясо.\n Ваш счет : " + score);
+		if (head.x ==arr[i].x && head.y ==arr[i].y ){	
+			lose("Не будьте ганибалом , змеи не любят змеинное мясо.\n Ваш счет : "
+				+ score +"\n Ваше время: " + timeCounter +" сек");
 		}
 	}
 }
@@ -143,14 +149,16 @@ function drawGame() {
 		ctx.fillRect(snake[i].x , snake[i].y , box, box);
 	}
 	
-	/ Счетчик /
+	/ Счетчик счета/
 	ctx.fillStyle = "white";
 	ctx.font = "50px Arial ";
-	ctx.fillText(score , box*5 , box * 3.2);
-	
+	ctx.fillText(score , box*5 , box * 3.4);
 
-	
-	
+	/ Счетчик времени /
+	ctx.fillStyle = "white";
+	ctx.font = "25px Arial ";
+	ctx.fillText(timeCounter +" сек" , box*45 , box * 2.8);
+
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
 	let snakeY = snake[0].y;
@@ -169,32 +177,31 @@ function drawGame() {
 
 	/ Настройка обычного хода змеи/
 	speed(1);
-	
 
 	/ Попадание на воду /
-
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
 			&& (snakeY >= water[i].y && snakeY <= water[i].y + (box*(WaterS- 1))) ) {
-			speed(1/10);
+			speed(0.4);
 		}
 	}
-	
-	
 
 	/ Попадание на траву /
-	
 	for(let i =0 ; i < grassCount ; i++){
 		if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*2) 
 			&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y + box + box*2) ){
-			speed(1.5);
+			speed(3);
 		}
 	}
-	
-	
-	
-	
 
+	/ Новая мышка при каждой 10 сек/
+
+	if ( timeCounter % 10 == 0 && timeCounter != 0){
+		let mouse2 = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
 	
 	/ Если мышка очутилась в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
@@ -211,7 +218,8 @@ function drawGame() {
 
 	/ Проигрыш при выходе за поле  /
 	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
-		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " + score);
+		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " 
+			+ score +"\n Ваше время: " + timeCounter +" сек");
 	}
 
 	
