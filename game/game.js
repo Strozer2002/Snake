@@ -159,16 +159,16 @@ function drawGame() {
 	
 	/ Счетчик счета/
 	ctx.fillStyle = "white";
-	ctx.font = "50px Arial ";
+	ctx.font = "50px Tourney ";
 	ctx.fillText(score , box*5 , box * 3.4);
 
 	/ Счетчик времени /
 	ctx.fillStyle = "white";
-	ctx.font = "25px Arial ";
+	ctx.font = "25px Tourney ";
 	ctx.fillText(timeCounter +" сек" , box*45 , box * 2.8);
 	/ Счетчик оставшегося времени для поедания мыши времени /
 	ctx.fillStyle = "red";
-	ctx.font = "50px Arial ";
+	ctx.font = "50px Tourney ";
 	ctx.fillText(timeRemainingEnd , box*25 , box * 3.4);
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
