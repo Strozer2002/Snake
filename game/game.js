@@ -29,6 +29,17 @@ let box = 16;
 / Счет /
 let score = 0;
 
+/ Работа счетчика времени /
+let timeRemainingEnd = 10;
+let timeRemaining = 10;
+let timeCounter = 0;
+function timerLimit(){
+	timeRemainingEnd = timeRemaining - timeCounter % 10;
+}
+function timer(){
+	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
+}
+
 / Время /
 let time = setInterval(timer , 1000);
 let timeLimit = setInterval(timerLimit , 1000);
@@ -55,7 +66,7 @@ for(let i =0 ; i < WaterCount; i++){
 
 / Координаты травы /
 let grass = [];
-const grassCount = 20;
+const grassCount = 15;
 for(let i =0 ; i < grassCount; i++){
 	grass[i] = {
 		x: Math.floor((Math.random() * 46 + 2)) * box,
@@ -63,6 +74,8 @@ for(let i =0 ; i < grassCount; i++){
 	};
 }
 / Координаты яблока /
+let appleMaxScore = 2;
+let appleMinScore = -2;
 let apple = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
@@ -73,10 +86,15 @@ let spider = {
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
 / Координаты яйца /
+let eggTimeRestart = 60;
 let egg = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
+
+	
+
+
 
 
 / Начало змеи в центре поля /
@@ -104,19 +122,8 @@ function direction(event){
 	else if(event.keyCode == 40 && dir != "up")
 		dir = "down";
 }
-/ Работа счетчика времени /
-let timeRemainingEnd = 0;
-let timeRemaining = 10;
-let timeCounter = 0;
-function timerLimit(){
-	timeRemainingEnd = timeRemaining - timeCounter % 10;
-	if (timeCounter% 10 == 0){
-		timeRemainingEnd = 0;
-	}
-}
-function timer(){
-	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
-}
+
+
 / Работа с проигрышем и перезагрузка страницы/
 function lose(loseText){
 	clearInterval(game);
@@ -139,8 +146,6 @@ function speed(count){
 	game =setTimeout(drawGame,timeRequest * count);
 }
 
-
-
 / Основная функция прорисовки поля и всего /
 function drawGame() {
 	
@@ -154,6 +159,39 @@ function drawGame() {
 			};
 		}
 	}
+	/ Если яблоко очутилось в воде /
+	for(let i = 0 ; i< WaterCount ; i++){
+		if ( (apple.x >= water[i].x && apple.x <= water[i].x + (box*(WaterS- 1))) 
+		&& (apple.y >= water[i].y && apple.y <= water[i].y + (box*(WaterS- 1))) ) {
+			apple = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
+	/ Если паук очутилось в воде /
+	for(let i = 0 ; i< WaterCount ; i++){
+		if ( (spider.x >= water[i].x && spider.x <= water[i].x + (box*(WaterS- 1))) 
+		&& (spider.y >= water[i].y && spider.y <= water[i].y + (box*(WaterS- 1))) ) {
+			spider = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
+	/ Если яйцо очутилось в воде /
+	if(timeCounter / eggTimeRestart >=1 ){
+		for(let i = 0 ; i< WaterCount ; i++){
+			if ( (egg.x >= water[i].x && egg.x <= water[i].x + (box*(WaterS- 1))) 
+			&& (egg.y >= water[i].y && egg.y <= water[i].y + (box*(WaterS- 1))) ) {
+				egg = {
+					x: Math.floor((Math.random() * 50 + 2)) * box,
+					y: Math.floor((Math.random() * 30 + 6)) * box,  
+				};
+			}
+		}
+	}
+	
 
 	
 
@@ -170,7 +208,9 @@ function drawGame() {
 	ctx.drawImage(spiderImg , spider.x , spider.y);
 	
 	/ Яйцо /
-	ctx.drawImage(eggImg , egg.x , egg.y);
+	if(timeCounter / eggTimeRestart >=1 ){
+		ctx.drawImage(eggImg , egg.x , egg.y);
+	}
 	
 	/ Вода  /
 	var gradient = ctx.createLinearGradient(32,96, 832,96);
@@ -223,19 +263,55 @@ function drawGame() {
 		snake.pop();
 	}
 
+	/ Поедание яблока /
+
+	if(snakeX == apple.x && snakeY == apple.y){
+		score += Math.floor((Math.random() * (appleMaxScore - appleMinScore)+ appleMinScore));
+		apple ={
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	/ Поедание паука /
+
+	if(snakeX == spider.x && snakeY == spider.y){
+		score += 4;
+		spider ={
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+		if (snake.length > 1){
+			snake.pop();
+		}
+	}
+	
+	/ Поедание яйца /
+	if(timeCounter / eggTimeRestart >=1 ){
+		if(snakeX == egg.x && snakeY == egg.y){
+			timeCounter -=10;
+			egg ={
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
+	
+
+
 	
 
 
 	/ Настройка обычного хода змеи/
 	speed(1);
 
-	/ Попадание на воду /
+	/ Попадание на воду змеи/
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
 			&& (snakeY >= water[i].y && snakeY <= water[i].y + (box*(WaterS- 1))) ) {
 			speed(0.4);
 		}
 	}
+
 
 	/ Попадание на траву /
 	for(let i =0 ; i < grassCount ; i++){
