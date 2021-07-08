@@ -34,15 +34,11 @@ let time = setInterval(timer , 1000);
 let timeLimit = setInterval(timerLimit , 1000);
 
 / Координаты мышки /
-let mouse =  [];
-const mouseCount = 3;
-const mouseMinLimit = mouseCount - 1;
-for(let i =0 ; i < mouseCount; i++){
-	mouse[i] = {
-		x: Math.floor((Math.random() * 50 + 2)) * box,
-		y: Math.floor((Math.random() * 30 + 6)) * box, 
-	};
-}
+let mouse =   {
+	x: Math.floor((Math.random() * 50 + 2)) * box,
+	y: Math.floor((Math.random() * 30 + 6)) * box, 
+};
+
 
 
 / Координаты воды /
@@ -150,16 +146,13 @@ function drawGame() {
 	
 	/ Если мышка очутилась в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
-		for(let c = 0 ; c<mouseCount ; c++){
-			if ( (mouse[c].x >= water[i].x && mouse[c].x <= water[i].x + (box*(WaterS- 1))) 
-			&& (mouse[c].y >= water[i].y && mouse[c].y <= water[i].y + (box*(WaterS- 1))) ) {
-				mouse[c] = {
-					x: Math.floor((Math.random() * 50 + 2)) * box,
-					y: Math.floor((Math.random() * 30 + 6)) * box,  
+		if ( (mouse.x >= water[i].x && mouse.x <= water[i].x + (box*(WaterS- 1))) 
+		&& (mouse.y >= water[i].y && mouse.y <= water[i].y + (box*(WaterS- 1))) ) {
+			mouse = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
 			};
 		}
-		}
-		
 	}
 
 	
@@ -168,10 +161,7 @@ function drawGame() {
 	ctx.drawImage(ground , 0 , 0);
 	
 	/ Мышь(еда) /
-	for (let i = 0; i < mouseCount ; i++) {
-		ctx.drawImage(mouseImg , mouse[i].x , mouse[i].y);
-	}
-	
+	ctx.drawImage(mouseImg , mouse.x , mouse.y);
 	
 	/ Яблоко /
 	ctx.drawImage(appleImg , apple.x , apple.y);
@@ -186,12 +176,12 @@ function drawGame() {
 	var gradient = ctx.createLinearGradient(32,96, 832,96);
 	gradient.addColorStop(0, '#14557b');
 	gradient.addColorStop(1, '#7fcec5');
-	for (let i = 0; i < WaterCount ; i++) {
+	for (var i = 0; i < WaterCount ; i++) {
 		ctx.fillStyle = gradient;
 		ctx.fillRect( water[i].x , water[i].y, box *WaterS, box *WaterS);
 	}
 	/ Трава /
-	for (let i = 0; i < grassCount ; i++) {
+	for (var i = 0; i < grassCount ; i++) {
 		ctx.drawImage(grassImg , grass[i].x , grass[i].y);
 	}
 	
@@ -223,18 +213,16 @@ function drawGame() {
 	let snakeY = snake[0].y;
 	
 	/ Прорисовка новой мыши при поедании /
-	for(let i = 0; i<mouseCount; i++){
-		if(snakeX == mouse[i].x && snakeY == mouse[i].y ){
-			score++;
-			mouse[i] = {
-				x: Math.floor((Math.random() * 50 + 2)) * box,
-				y: Math.floor((Math.random() * 30 + 6)) * box,  
-			};
-		} 
-		else{
-			snake.pop();
-		}
+	if(snakeX == mouse.x && snakeY == mouse.y ){
+		score++;
+		mouse = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	} else{
+		snake.pop();
 	}
+
 	
 
 
@@ -257,13 +245,9 @@ function drawGame() {
 		}
 	}
 
-	/ Новая мышка при каждой 10 сек/
+	
 
-	
-	
-	/*
 	/ Проигрыш при выходе за поле  /
-	*/
 	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
 		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " 
 			+ score +"\n Ваше время: " + timeCounter +" сек");
@@ -279,7 +263,7 @@ function drawGame() {
 	/ Прорисовка новой части змеи при поедании /
 	let newHead = {
 		x:snakeX,
-		y:snakeY
+		y:snakeY,
 	};
 
 
