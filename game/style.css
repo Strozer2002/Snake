@@ -15,3 +15,47 @@ canvas {
   width: 64px;
   height: 64px;
 }
+img {
+  width: 64px;
+  height: 64px;
+}
+
+.game_info{
+  background-color: #1C4A23;
+  padding: 0 25px;
+  align-items: center;
+}
+.game_info_mouse{
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0 ;
+}
+.game_info_grass{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.game_info_water{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.game_info_water_img{
+  margin: 0;
+  background: #296D8A;
+}
+.game_info_apple{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.game_info_spider{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.game_info_egg{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}

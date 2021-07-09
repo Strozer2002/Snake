@@ -16,10 +16,40 @@
 </head>
 <body>
 	
+	
 	<canvas id="game" width="864" height="608"></canvas>
-	<div id="pause_button" width="128" height="128">
-		<img src="gameAssets/pause2.png" alt="pause">
+	<div class="all_about">
+		<div id="pause_button" width="128" height="128">
+			<img src="gameAssets/pause2.png" alt="pause">
+		</div>
+		<div class="game_info" width="200" height="510">
+			<div class="game_info_mouse">
+				<img src="gameAssets/mouse.png" alt="mouse">
+				<p>Мышь</p>
+			</div>
+			<div class="game_info_grass">
+				<img src="gameAssets/grass.png" alt="grass">
+				<p>Трава</p>
+			</div>
+			<div class="game_info_water">
+				<canvas class="game_info_water_img" width="64" height="64"></canvas>
+				<p>Вода</p>
+			</div>
+			<div class="game_info_apple">
+				<img src="gameAssets/apple.png" alt="apple">
+				<p>Яблоко</p>
+			</div>
+			<div class="game_info_spider">
+				<img src="gameAssets/spider.png" alt="spider">
+				<p>Паук</p>
+			</div>
+			<div class="game_info_egg">
+				<img src="gameAssets/egg.png" alt="egg">
+				<p>Яйцо</p>
+			</div>
+		</div>
 	</div>
+	
 	<script src="game.js"></script>
 </body>
 </html>
