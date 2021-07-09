@@ -5,9 +5,6 @@ const ctx = canvas.getContext('2d');
 const timeRequest = 100;
 
 
-
-
-
 / Пути к картинкам мышки и земли /
 const ground = new Image();
 ground.src = "gameAssets/ground3.png";
