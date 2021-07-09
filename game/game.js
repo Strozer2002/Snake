@@ -4,6 +4,10 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const timeRequest = 100;
 
+
+
+
+
 / Пути к картинкам мышки и земли /
 const ground = new Image();
 ground.src = "gameAssets/ground3.png";
@@ -135,16 +139,25 @@ function lose(loseText){
 function eatTail(head , arr){
 	for (let i=0; i<arr.length; i++){
 		if (head.x ==arr[i].x && head.y ==arr[i].y ){	
-			lose("Не будьте ганибалом , змеи не любят змеинное мясо.\n Ваш счет : "
-				+ score +"\n Ваше время: " + timeCounter +" сек");
+			lose("\n Не будьте ганибалом , змеи не любят змеинное мясо.\n\n Ваш счет : "
+				+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
 		}
 	}
 }
+/ Функция паузы /
+document.getElementById('pause_button').addEventListener('click', function () {
+    setTimeout(function () {
+        alert('\n Пауза  \n' + "\n Ваш счет : "
+        	+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + (snake.length - 1));
+    }, 100);
+});
+
 / Функция управления скоростью змеи/
 function speed(count){
 	clearTimeout(game);
 	game =setTimeout(drawGame,timeRequest * count);
 }
+
 
 / Основная функция прорисовки поля и всего /
 function drawGame() {
@@ -246,7 +259,7 @@ function drawGame() {
 	ctx.font = "50px Tourney ";
 	ctx.fillText(timeRemainingEnd , box*25 , box * 3.4);
 	
-
+	
 
 	/ Поедание мыши /
 	let snakeX = snake[0].x;
@@ -325,8 +338,8 @@ function drawGame() {
 
 	/ Проигрыш при выходе за поле  /
 	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
-		lose("Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n Ваш счет : " 
-			+ score +"\n Ваше время: " + timeCounter +" сек");
+		lose("\n Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n\n Ваш счет : " 
+			+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
 	}
 
 	

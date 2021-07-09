@@ -1,9 +1,17 @@
 body{
 	background: url(wallpapers/1.jpg) no-repeat fixed;
 	background-size: cover;
+  display: flex;
+  align-items: flex-start;
+
 }
 canvas {
   background: black;
-  margin: 0 auto;
+  margin: 0 auto ;
   display: block;
+}
+#pause_button img{
+  background: no-repeat fixed;
+  width: 64px;
+  height: 64px;
 }
