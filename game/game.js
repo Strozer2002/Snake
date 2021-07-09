@@ -158,7 +158,6 @@ function speed(count){
 	game =setTimeout(drawGame,timeRequest * count);
 }
 
-
 / Основная функция прорисовки поля и всего /
 function drawGame() {
 	
@@ -204,7 +203,43 @@ function drawGame() {
 			}
 		}
 	}
-	
+	/ Проверка появления объектов /
+	if ( mouse.x == apple.x && mouse.y == apple.y ) {
+		apple = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	if ( mouse.x == spider.x && mouse.y == spider.y ) {
+		spider = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	if ( mouse.x == egg.x && mouse.y == egg.y ) {
+		egg = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	if ( apple.x == spider.x && apple.y == spider.y ) {
+		spider = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	if ( apple.x == egg.x && apple.y == egg.y ) {
+		egg = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
+	if ( egg.x == spider.x && egg.y == spider.y ) {
+		egg = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};
+	}
 
 	
 
