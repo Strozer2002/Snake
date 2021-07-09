@@ -28,7 +28,8 @@ img {
 .game_info_mouse{
   display: flex;
   justify-content: space-between;
-  margin: 25px 0 ;
+  margin-bottom: 25px;
+  padding-top: 10px;
 }
 .game_info_grass{
   display: flex;
@@ -57,5 +58,5 @@ img {
 .game_info_egg{
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
