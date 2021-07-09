@@ -35,7 +35,10 @@ let timeRemainingEnd = 10;
 let timeRemaining = 10;
 let timeCounter = 0;
 function timerLimit(){
-	timeRemainingEnd = timeRemaining - timeCounter % 10;
+	if(timeCounter > 0)
+		timeRemainingEnd = timeRemaining --;
+	if(timeRemainingEnd == 0)
+		timeRemaining = 10;
 }
 function timer(){
 	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
@@ -300,6 +303,8 @@ function drawGame() {
 	/ Прорисовка новой мыши при поедании /
 	if(snakeX == mouse.x && snakeY == mouse.y ){
 		score++;
+		timeRemainingEnd = 10;
+		timeRemaining = 10;
 		mouse = {
 			x: Math.floor((Math.random() * 50 + 2)) * box,
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
@@ -307,6 +312,16 @@ function drawGame() {
 	} else{
 		snake.pop();
 	}
+
+	/ Новая мышка при каждой 10 сек/
+	    
+    if (timeRemainingEnd == 0){
+    	mouse = {
+			x: Math.floor((Math.random() * 50 + 2)) * box,
+			y: Math.floor((Math.random() * 30 + 6)) * box,  
+		};	
+    }
+	
 
 	/ Поедание яблока /
 
@@ -341,10 +356,6 @@ function drawGame() {
 		}
 	}
 	
-
-
-	
-
 
 	/ Настройка обычного хода змеи/
 	speed(1);
