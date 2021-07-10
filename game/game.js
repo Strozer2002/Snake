@@ -241,6 +241,7 @@ function drawGame() {
 			};
 		}
 	}
+	
 	/ Если яблоко очутилось в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (apple.x >= water[i].x && apple.x <= water[i].x + (box*(WaterS- 1))) 
@@ -251,6 +252,7 @@ function drawGame() {
 			};
 		}
 	}
+	
 	/ Если паук очутилось в воде /
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (spider.x >= water[i].x && spider.x <= water[i].x + (box*(WaterS- 1))) 
@@ -261,6 +263,7 @@ function drawGame() {
 			};
 		}
 	}
+	
 	/ Если яйцо очутилось в воде /
 	if(timeCounter / eggTimeRestart >=1 ){
 		for(let i = 0 ; i< WaterCount ; i++){
@@ -273,6 +276,7 @@ function drawGame() {
 			}
 		}
 	}
+	
 	/ Если камень очутился первоначально на змее /
 	for (let i = 0; i < stoneCount ; i++){
 		if ( (stone[i].x >= 26*box && stone[i].x <= 28*box) 
@@ -429,12 +433,12 @@ function drawGame() {
 			x: Math.floor((Math.random() * 50 + 2)) * box,
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
 		};
-	} else{
+	} 
+	else{
 		snake.pop();
 	}
 
-	/ Новая мышка при каждой 10 сек/
-	    
+	/ Новая мышка при каждой 10 сек/    
     if (timeRemainingEnd == 0){
     	mouse = {
 			x: Math.floor((Math.random() * 50 + 2)) * box,
@@ -445,7 +449,6 @@ function drawGame() {
 	
 
 	/ Поедание яблока /
-
 	if(snakeX == apple.x && snakeY == apple.y){
 		score += Math.floor((Math.random() * (appleMaxScore - appleMinScore)+ appleMinScore));
 		apple ={
@@ -453,8 +456,8 @@ function drawGame() {
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
 		};
 	}
+	
 	/ Поедание паука /
-
 	if(snakeX == spider.x && snakeY == spider.y){
 		score += 4;
 		spider ={
@@ -490,7 +493,6 @@ function drawGame() {
 			}
 		}
 
-
 		/ Попадание на траву /
 		for(let i =0 ; i < grassCount ; i++){
 			if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*2) 
@@ -503,6 +505,7 @@ function drawGame() {
 	
 	/ Настройка обычного хода змеи/
 	speedCount(1 , 0.4 , 3);
+	
 	/ Увеличение скорости змеи /
 	if ( score >= 20 ){
 		speedCount( 0.8 , 0.32 , 1.4);
@@ -510,6 +513,7 @@ function drawGame() {
 	if ( score >= 40 ){
 		speedCount( 0.64 , 0.26 , 1.12);
 	}
+	
 	/ Попадание на воду змеи/
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
@@ -517,7 +521,6 @@ function drawGame() {
 			speed(0.4);
 		}
 	}
-
 
 	/ Попадание на траву /
 	for(let i =0 ; i < grassCount ; i++){
@@ -527,8 +530,6 @@ function drawGame() {
 		}
 	}
 
-	
-
 	/ Попадание на камень /
 	for(let i =0 ; i < stoneCount ; i++){
 		if ( (snakeX >= stone[i].x  && snakeX <= stone[i].x + (box *(stoneS - 1))) 
@@ -537,6 +538,7 @@ function drawGame() {
 				+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
 		}
 	}
+	
 	/ Респаун камня /
 	if ( timeStone % timeStoneRestart == 0 && timeStone!=0 ){
 		for(let i =0 ; i < stoneCount ; i++){
@@ -587,17 +589,12 @@ function drawGame() {
 		}	
 	}
 
-	
-	
-	
-
 	/ Проигрыш при выходе за поле  /
 	if(snakeX < box*2 || snakeX > box * 51 || snakeY < 6 * box || snakeY > box  * 35){
 		lose("\n Вы упустили вашу змею в минималистичную траву и теперь вы ее никогда не найдете.\n\n Ваш счет : " 
 			+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
 	}
 
-	
 	/ Управление змеей /
 	if(dir == "left") snakeX -=box;
 	if(dir == "right") snakeX +=box;
@@ -610,13 +607,11 @@ function drawGame() {
 		y:snakeY,
 	};
 
-
-
 	/ Поедание себя /
 	eatTail(newHead , snake);
 	/ Добавление новой части змеи /
 	snake.unshift(newHead);
 }
-/* Начальный вызов игры в интервале 0.15 сек. */
 
+/* Начальный вызов игры в интервале 0.15 сек. */
 var game = setTimeout(drawGame, timeRequest * 2);
