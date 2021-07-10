@@ -508,7 +508,7 @@ function drawGame() {
 	}
 
 	/ Стены /
-	if ((timeCounter % timeWallRestart >= 0 && timeCounter % timeWallRestart < timeWallRandom) 
+	if ((timeCounter % timeWallRestart > 0 && timeCounter % timeWallRestart < timeWallRandom) 
 		&& timeCounter>=timeWallRestart ){	
 		if (timeWallDoubleCode == 0){
 			horizontWallRespawn();
