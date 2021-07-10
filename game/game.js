@@ -266,7 +266,8 @@ function drawGame() {
 	}
 	/ Если камень очутился первоначально на змее /
 	for (let i = 0; i < stoneCount ; i++){
-		if ( snake[0].x == stone[i].x + (box *stoneS) && snake[0].y == stone[i].y + (box *stoneS)  ){
+		if ( (snake[0].x >= stone[i].x && snake[0].x <= stone[i].x + (box *stoneS)) 
+			&& (snake[0].y >= stone[i].y && snake[0].y <= stone[i].y + (box *stoneS))  ){
 			stone[i] = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
@@ -312,25 +313,29 @@ function drawGame() {
 		};
 	}
 	for(let i = 0 ; i < stoneCount ; i++){
-		if ( mouse.x == stone[i].x + (box *stoneS) && mouse.y == stone[i].y + (box *stoneS) ) {
+		if ( (mouse.x >= stone[i].x && mouse.x <= stone[i].x + (box *stoneS)) 
+			&& (mouse.y >= stone[i].y && mouse.y <= stone[i].y + (box *stoneS)) ) {
 			mouse = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
 			};
 		}
-		if ( apple.x == stone[i].x + (box *stoneS) && apple.y == stone[i].y + (box *stoneS) ) {
+		if ( (apple.x >= stone[i].x && apple.x <= stone[i].x + (box *stoneS)) 
+			&& (apple.y >= stone[i].y && apple.y <= stone[i].y + (box *stoneS)) ) {
 			apple = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
 			};
 		}
-		if ( spider.x == stone[i].x + (box *stoneS) && spider.y == stone[i].y + (box *stoneS) ) {
+		if ( (spider.x >= stone[i].x && spider.x <= stone[i].x + (box *stoneS)) 
+			&& (spider.y >= stone[i].y && spider.y <= stone[i].y + (box *stoneS)) ) {
 			spider = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
 			};
 		}
-		if ( egg.x == stone[i].x + (box *stoneS) && egg.y == stone[i].y + (box *stoneS) ) {
+		if ( (egg.x >= stone[i].x && egg.x <= stone[i].x + (box *stoneS)) 
+			&& (egg.y >= stone[i].y && egg.y <= stone[i].y + (box *stoneS)) ) {
 			egg = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
