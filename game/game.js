@@ -92,6 +92,7 @@ for(let i =0 ; i < stoneCount; i++){
 	};
 }
 
+
 /Координаты стен /
 let horizontWall;
 let verticalWall;
@@ -138,6 +139,10 @@ snake[0] = {
 	x: 26 * box,
 	y: 20 * box,
 };
+
+
+
+
 
 / Вызов нажатия клавиш /
 document.addEventListener("keydown", direction);
@@ -266,8 +271,8 @@ function drawGame() {
 	}
 	/ Если камень очутился первоначально на змее /
 	for (let i = 0; i < stoneCount ; i++){
-		if ( (snake[0].x >= stone[i].x && snake[0].x <= stone[i].x + (box *stoneS)) 
-			&& (snake[0].y >= stone[i].y && snake[0].y <= stone[i].y + (box *stoneS))  ){
+		if ( (stone[i].x >= 26*box && stone[i].x <= 28*box) 
+			&& ( stone[i].y>= 26*box && stone[i].y <= 28*box)  ){
 			stone[i] = {
 				x: Math.floor((Math.random() * 50 + 2)) * box,
 				y: Math.floor((Math.random() * 30 + 6)) * box,  
