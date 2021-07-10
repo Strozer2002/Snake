@@ -35,6 +35,10 @@ let timeRemainingEnd = 10;
 let timeRemaining = 10;
 let timeCounter = 0;
 let timeStone = 0;
+let timeWallDoubleCode = Math.floor(Math.random() * 2);
+let timeWallRemain = 5;
+let timeWallRandom = Math.floor(Math.random() * 6);
+let timeWallRestart = 10;
 function timerLimit(){
 	if(timeCounter > 0)
 		timeRemainingEnd = timeRemaining --;
@@ -45,6 +49,12 @@ function timer(){
 	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") {
 		timeCounter++;
 		timeStone++;
+		timeWallRemain--;
+		if (timeWallRemain == 0){
+			timeWallDoubleCode = Math.floor(Math.random() * 2);
+			timeWallRandom = Math.floor(Math.random() * 6);
+			timeWallRemain = 5;
+		}
 	}
 }
 
@@ -70,7 +80,7 @@ for(let i =0 ; i < WaterCount; i++){
 		y: Math.floor((Math.random() * 25 + 6)) * box, 
 	};
 }
-/ Координаты кирпича /
+/ Координаты камня /
 let stone = [];
 const stoneCount = 8;
 const stoneS = 2;
@@ -81,6 +91,13 @@ for(let i =0 ; i < stoneCount; i++){
 		y: Math.floor((Math.random() * 25 + 6)) * box, 
 	};
 }
+
+/Координаты стен /
+let horizontWall;
+let verticalWall;
+
+
+
 
 / Координаты травы /
 let grass = [];
@@ -175,10 +192,31 @@ document.addEventListener('keydown', function (event) {
     }, 100);
 });
 
+
 / Функция управления скоростью змеи/
 function speed(count){
 	clearTimeout(game);
 	game =setTimeout(drawGame,timeRequest * count);
+}
+
+/ Функция прорисовки horizontWall /
+
+function horizontWallRespawn(){
+	horizontWall = {
+		x: 27 * box,
+		y: 6 * box, 
+	};
+	ctx.fillStyle = "brown";
+	ctx.fillRect( horizontWall.x , horizontWall.y, box, box * 30);
+}
+/ Функция прорисовки verticalWall /
+function verticalWallRespawn(){
+	verticalWall ={
+		x: 2 * box,
+		y: 20 * box, 
+	};
+	ctx.fillStyle = "brown";
+	ctx.fillRect( verticalWall.x , verticalWall.y, box * 50, box);
 }
 
 / Основная функция прорисовки поля и всего /
@@ -226,6 +264,16 @@ function drawGame() {
 			}
 		}
 	}
+	/ Если камень очутился первоначально на змее /
+	for (let i = 0; i < stoneCount ; i++){
+		if ( snake[0].x == stone[i].x + (box *stoneS) && snake[0].y == stone[i].y + (box *stoneS)  ){
+			stone[i] = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
+
 	/ Проверка появления объектов /
 	if ( mouse.x == apple.x && mouse.y == apple.y ) {
 		apple = {
@@ -325,7 +373,7 @@ function drawGame() {
 		ctx.fillStyle = gradientStone;
 		ctx.fillRect( stone[i].x , stone[i].y, box *stoneS, box *stoneS);
 	}
-	
+
 	/ Трава /
 	for (var i = 0; i < grassCount ; i++) {
 		ctx.drawImage(grassImg , grass[i].x , grass[i].y);
@@ -439,7 +487,8 @@ function drawGame() {
 	for(let i =0 ; i < stoneCount ; i++){
 		if ( (snakeX >= stone[i].x  && snakeX <= stone[i].x + (box *(stoneS - 1))) 
 			&& (snakeY >= stone[i].y  && snakeY <= stone[i].y + (box *(stoneS - 1)))) {
-			lose("Вы проиграли");
+			lose("Ваша змея оглушена камнем. \n\n Ваш счет : "
+				+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
 		}
 	}
 	/ Респаун камня /
@@ -452,6 +501,48 @@ function drawGame() {
 		}
 		timeStone = 0;		
 	}
+
+	/ Стены /
+	if ((timeCounter % timeWallRestart >= 0 && timeCounter % timeWallRestart < timeWallRandom) 
+		&& timeCounter>=timeWallRestart ){	
+		if (timeWallDoubleCode == 0){
+			horizontWallRespawn();
+			if ( (snakeX == horizontWall.x) 
+				&& (snakeY >= horizontWall.y  && snakeY <= horizontWall.y + box * 36 ) ) {
+				lose("Вы попали на стену. \n\n Ваш счет : "
+				+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
+			}
+			else{
+				for (let i = 0 ; i < snake.length; i++){
+					if ( (snake[i].x == horizontWall.x) 
+						&& (snake[i].y >= horizontWall.y  && snake[i].y <= horizontWall.y + box * 36 ) ) {
+						lose("Вы попали на стену. \n\n Ваш счет : "
+					+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
+					}
+				}
+			}
+		}
+		else {
+			verticalWallRespawn();
+			if ( (snakeX >= verticalWall.x  && snakeX <= verticalWall.x + box * 52) 
+				&& (snakeY == verticalWall.y  ) ) {
+				lose("Вы попали на стену. \n\n Ваш счет : "
+				+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
+			}
+			else{
+				for (let i = 0 ; i < snake.length; i++){
+					if ( (snake[i].x >= verticalWall.x  && snake[i].x <= verticalWall.x + box * 52) 
+						&& (snake[i].y == verticalWall.y  ) ) {
+						lose("Вы попали на стену. \n\n Ваш счет : "
+					+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + snake.length);
+					}
+				}
+			}	
+		}	
+	}
+
+	
+	
 	
 
 	/ Проигрыш при выходе за поле  /
