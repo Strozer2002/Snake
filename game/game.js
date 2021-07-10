@@ -37,7 +37,7 @@ let timeCounter = 0;
 let timeStone = 0;
 let timeWallDoubleCode = Math.floor(Math.random() * 2);
 let timeWallRemain = 5;
-let timeWallRandom = Math.floor(Math.random() * 6);
+let timeWallRandom = Math.floor(Math.random() * (6 - 1) + 1);
 let timeWallRestart = 10;
 function timerLimit(){
 	if(timeCounter > 0)
@@ -52,7 +52,7 @@ function timer(){
 		timeWallRemain--;
 		if (timeWallRemain == 0){
 			timeWallDoubleCode = Math.floor(Math.random() * 2);
-			timeWallRandom = Math.floor(Math.random() * 6);
+			timeWallRandom = Math.floor(Math.random() * (6 - 1) + 1);
 			timeWallRemain = 5;
 		}
 	}
