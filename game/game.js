@@ -224,6 +224,7 @@ function verticalWallRespawn(){
 	ctx.fillRect( verticalWall.x , verticalWall.y, box * 50, box);
 }
 
+
 / Основная функция прорисовки поля и всего /
 function drawGame() {
 	
@@ -473,10 +474,39 @@ function drawGame() {
 		}
 	}
 	
+	/ Функция скорости при 0 - 10 очков /
+	function speedCount(speedNormal , speedGrass , speedWater){
+		/ Настройка обычного хода змеи/
+		speed(speedNormal);
 
+		/ Попадание на воду змеи/
+		for(let i = 0 ; i< WaterCount ; i++){
+			if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
+				&& (snakeY >= water[i].y && snakeY <= water[i].y + (box*(WaterS- 1))) ) {
+				speed(speedGrass);
+			}
+		}
+
+
+		/ Попадание на траву /
+		for(let i =0 ; i < grassCount ; i++){
+			if ( (snakeX >= grass[i].x + box  && snakeX <= grass[i].x  + box*2) 
+				&& (snakeY >= grass[i].y + box && snakeY <= grass[i].y + box + box*2) ){
+				speed(speedWater);
+			}
+		}
+	}
+
+	
 	/ Настройка обычного хода змеи/
-	speed(1);
-
+	speedCount(1 , 0.4 , 3);
+	/ Увеличение скорости змеи /
+	if ( score >= 20 ){
+		speedCount( 0.8 , 0.32 , 1.4);
+	}
+	if ( score >= 40 ){
+		speedCount( 0.64 , 0.26 , 1.12);
+	}
 	/ Попадание на воду змеи/
 	for(let i = 0 ; i< WaterCount ; i++){
 		if ( (snakeX >= water[i].x && snakeX <= water[i].x + (box*(WaterS- 1))) 
@@ -493,6 +523,9 @@ function drawGame() {
 			speed(3);
 		}
 	}
+
+	
+
 	/ Попадание на камень /
 	for(let i =0 ; i < stoneCount ; i++){
 		if ( (snakeX >= stone[i].x  && snakeX <= stone[i].x + (box *(stoneS - 1))) 
