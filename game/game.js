@@ -1,11 +1,11 @@
 
-/ Работа с канвасом и частотой кадров/
+/* Работа с канвасом и частотой кадров */
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const timeRequest = 100;
 
 
-/ Пути к картинкам мышки и земли /
+/* Пути к картинкам мышки и земли */
 const ground = new Image();
 ground.src = "gameAssets/ground3.png";
 
@@ -24,21 +24,43 @@ spiderImg.src = "gameAssets/spider.png";
 const eggImg = new Image();
 eggImg.src ="gameAssets/egg.png";
 
-/ Пиксели одной ячейки поли /
-let box = 16;
 
-/ Счет /
-let score = 0;
+/* Все переменные для настройки игры */
+
+let box = 16;      // Пиксели одной ячейки поли
+let score = 0;     // Счет
+
+let horizontWall;  	// Координаты стен
+let verticalWall;  	// Координаты стен
+
+let timeRemainingEnd = 10;   // Остаток до переобновления мышки
+let timeRemaining = 10;      // Вспомогательная переменная
+const timeStoneRestart = 20; // Рестар камня
+
+let timeWallDoubleCode = Math.floor(Math.random() * 2);        //  (- или |)  линии
+let timeWallRemain = 5;										   //  специальный счетчик для стен
+let timeWallRandom = Math.floor(Math.random() * (6 - 1) + 1);  //  Рандомное количество времени существования
+let timeWallRestart = 10;									   //  Время переспавна
+
+const WaterCount = 5;   // Кол-во воды
+const WaterS = 5;		// Площадь воды
+
+const stoneCount = 8;   // Кол-во камней
+const stoneS = 2;		// Площадь камней
+
+const grassCount = 15; // Кол-во травы
+
+let appleMaxScore = 2;			// Маx Добавки к очкам
+let appleMinScore = -2;			// Мin Добавки к очкам
+
+
+let eggTimeRestart = 60; 		// Начало появления яйца
+
 
 / Работа счетчика времени /
-let timeRemainingEnd = 10;
-let timeRemaining = 10;
-let timeCounter = 0;
-let timeStone = 0;
-let timeWallDoubleCode = Math.floor(Math.random() * 2);
-let timeWallRemain = 5;
-let timeWallRandom = Math.floor(Math.random() * (6 - 1) + 1);
-let timeWallRestart = 10;
+let timeCounter = 0;         // Таймер игры
+let timeStone = 0;           // Таймер для камня
+
 function timerLimit(){
 	if(timeCounter > 0)
 		timeRemainingEnd = timeRemaining --;
@@ -58,33 +80,27 @@ function timer(){
 	}
 }
 
-/ Время /
+/* Время */
 let time = setInterval(timer , 1000);
 let timeLimit = setInterval(timerLimit , 1000);
 
-/ Координаты мышки /
+/* Координаты мышки */
 let mouse =   {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
 
-
-
-/ Координаты воды /
+/* Координаты воды */
 let water = [];
-const WaterCount = 5;
-const WaterS = 5;
 for(let i =0 ; i < WaterCount; i++){
 	water[i] = {
 		x: Math.floor((Math.random() * 45 + 2)) * box,
 		y: Math.floor((Math.random() * 25 + 6)) * box, 
 	};
 }
-/ Координаты камня /
+
+/* Координаты камня */
 let stone = [];
-const stoneCount = 8;
-const stoneS = 2;
-const timeStoneRestart = 20;
 for(let i =0 ; i < stoneCount; i++){
 	stone[i] = {
 		x: Math.floor((Math.random() * 45 + 2)) * box,
@@ -93,47 +109,34 @@ for(let i =0 ; i < stoneCount; i++){
 }
 
 
-/Координаты стен /
-let horizontWall;
-let verticalWall;
-
-
-
-
-/ Координаты травы /
+/* Координаты травы */
 let grass = [];
-const grassCount = 15;
 for(let i =0 ; i < grassCount; i++){
 	grass[i] = {
 		x: Math.floor((Math.random() * 46 + 2)) * box,
 		y: Math.floor((Math.random() * 26 + 6)) * box, 
 	};
 }
-/ Координаты яблока /
-let appleMaxScore = 2;
-let appleMinScore = -2;
+
+/* Координаты яблока */
 let apple = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
-/ Координаты паука /
+
+/* Координаты паука */
 let spider = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
-/ Координаты яйца /
-let eggTimeRestart = 60;
+
+/* Координаты яйца */
 let egg = {
 	x: Math.floor((Math.random() * 50 + 2)) * box,
 	y: Math.floor((Math.random() * 30 + 6)) * box, 
 };
 
-	
-
-
-
-
-/ Начало змеи в центре поля /
+/* Начало змеи в центре поля */
 let snake = [];
 snake[0] = {
 	x: 26 * box,
@@ -142,16 +145,14 @@ snake[0] = {
 
 
 
-
-
-/ Вызов нажатия клавиш /
+/* Вызов нажатия клавиш */
 document.addEventListener("keydown", direction);
 
-/ Переменная для работы с клавишами /
+/* Переменная для работы с клавишами */
 let dir;
 
 
-/ Работа с клавишами (стрелок) /
+/* Работа с клавишами (стрелок) */
 function direction(event){
 	if(event.keyCode == 37 && dir != "right")
 		dir = "left";
@@ -164,14 +165,14 @@ function direction(event){
 }
 
 
-/ Работа с проигрышем и перезагрузка страницы/
+/* Работа с проигрышем и перезагрузка страницы */
 function lose(loseText){
 	clearInterval(game);
 	alert(loseText);
 	location.reload();
 }
 
-/ Работа с поеданием себя /
+/* Работа с поеданием себя */
 function eatTail(head , arr){
 	for (let i=0; i<arr.length; i++){
 		if (head.x ==arr[i].x && head.y ==arr[i].y ){	
@@ -180,7 +181,8 @@ function eatTail(head , arr){
 		}
 	}
 }
-/ Функция паузы /
+
+/* Функция паузы */
 document.getElementById('pause_button').addEventListener('click', function () {
     setTimeout(function () {
         alert('\n Пауза  \n' + "\n Ваш счет : "
@@ -198,13 +200,13 @@ document.addEventListener('keydown', function (event) {
 });
 
 
-/ Функция управления скоростью змеи/
+/* Функция управления скоростью змеи */
 function speed(count){
 	clearTimeout(game);
 	game =setTimeout(drawGame,timeRequest * count);
 }
 
-/ Функция прорисовки horizontWall /
+/* Функция прорисовки horizontWall */
 
 function horizontWallRespawn(){
 	horizontWall = {
@@ -214,7 +216,8 @@ function horizontWallRespawn(){
 	ctx.fillStyle = "brown";
 	ctx.fillRect( horizontWall.x , horizontWall.y, box, box * 30);
 }
-/ Функция прорисовки verticalWall /
+
+/* Функция прорисовки verticalWall */
 function verticalWallRespawn(){
 	verticalWall ={
 		x: 2 * box,
@@ -225,7 +228,7 @@ function verticalWallRespawn(){
 }
 
 
-/ Основная функция прорисовки поля и всего /
+/* Основная функция прорисовки поля и всего */
 function drawGame() {
 	
 	/ Если мышка очутилась в воде /
