@@ -34,6 +34,7 @@ let score = 0;
 let timeRemainingEnd = 10;
 let timeRemaining = 10;
 let timeCounter = 0;
+let timeStone = 0;
 function timerLimit(){
 	if(timeCounter > 0)
 		timeRemainingEnd = timeRemaining --;
@@ -41,7 +42,10 @@ function timerLimit(){
 		timeRemaining = 10;
 }
 function timer(){
-	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") timeCounter++;
+	if(dir == "left" || dir == "right" || dir == "up" || dir == "down") {
+		timeCounter++;
+		timeStone++;
+	}
 }
 
 / Время /
@@ -66,7 +70,17 @@ for(let i =0 ; i < WaterCount; i++){
 		y: Math.floor((Math.random() * 25 + 6)) * box, 
 	};
 }
-
+/ Координаты кирпича /
+let stone = [];
+const stoneCount = 8;
+const stoneS = 2;
+const timeStoneRestart = 20;
+for(let i =0 ; i < stoneCount; i++){
+	stone[i] = {
+		x: Math.floor((Math.random() * 45 + 2)) * box,
+		y: Math.floor((Math.random() * 25 + 6)) * box, 
+	};
+}
 
 / Координаты травы /
 let grass = [];
@@ -149,6 +163,15 @@ document.getElementById('pause_button').addEventListener('click', function () {
     setTimeout(function () {
         alert('\n Пауза  \n' + "\n Ваш счет : "
         	+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + (snake.length - 1));
+    }, 100);
+});
+document.addEventListener('keydown', function (event) {
+    setTimeout(function () {
+        if (event.keyCode == 32 || event.keyCode == 80) {
+		    alert('\n Пауза  \n' + "\n Ваш счет : "
+        	+ score +"\n Ваше время: " + timeCounter +" сек" + "\n Вашa длина: " + (snake.length - 1));
+		  }
+
     }, 100);
 });
 
@@ -240,8 +263,33 @@ function drawGame() {
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
 		};
 	}
+	for(let i = 0 ; i < stoneCount ; i++){
+		if ( mouse.x == stone[i].x + (box *stoneS) && mouse.y == stone[i].y + (box *stoneS) ) {
+			mouse = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+		if ( apple.x == stone[i].x + (box *stoneS) && apple.y == stone[i].y + (box *stoneS) ) {
+			apple = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+		if ( spider.x == stone[i].x + (box *stoneS) && spider.y == stone[i].y + (box *stoneS) ) {
+			spider = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+		if ( egg.x == stone[i].x + (box *stoneS) && egg.y == stone[i].y + (box *stoneS) ) {
+			egg = {
+				x: Math.floor((Math.random() * 50 + 2)) * box,
+				y: Math.floor((Math.random() * 30 + 6)) * box,  
+			};
+		}
+	}
 
-	
 
 	/ Поле /
 	ctx.drawImage(ground , 0 , 0);
@@ -261,13 +309,23 @@ function drawGame() {
 	}
 	
 	/ Вода  /
-	var gradient = ctx.createLinearGradient(32,96, 832,96);
-	gradient.addColorStop(0, '#14557b');
-	gradient.addColorStop(1, '#7fcec5');
+	var gradientWater = ctx.createLinearGradient(32,96, 832,96);
+	gradientWater.addColorStop(0, '#14557b');
+	gradientWater.addColorStop(1, '#7fcec5');
 	for (var i = 0; i < WaterCount ; i++) {
-		ctx.fillStyle = gradient;
+		ctx.fillStyle = gradientWater;
 		ctx.fillRect( water[i].x , water[i].y, box *WaterS, box *WaterS);
 	}
+	
+	/ Камень  /
+	var gradientStone = ctx.createLinearGradient(32,96, 832,96);
+	gradientStone.addColorStop(0, 'black');
+	gradientStone.addColorStop(1, 'gray');
+	for (let i = 0; i < stoneCount ; i++) {
+		ctx.fillStyle = gradientStone;
+		ctx.fillRect( stone[i].x , stone[i].y, box *stoneS, box *stoneS);
+	}
+	
 	/ Трава /
 	for (var i = 0; i < grassCount ; i++) {
 		ctx.drawImage(grassImg , grass[i].x , grass[i].y);
@@ -319,7 +377,8 @@ function drawGame() {
     	mouse = {
 			x: Math.floor((Math.random() * 50 + 2)) * box,
 			y: Math.floor((Math.random() * 30 + 6)) * box,  
-		};	
+		};
+		timeRemainingEnd = 10;
     }
 	
 
@@ -376,7 +435,23 @@ function drawGame() {
 			speed(3);
 		}
 	}
-
+	/ Попадание на камень /
+	for(let i =0 ; i < stoneCount ; i++){
+		if ( (snakeX >= stone[i].x  && snakeX <= stone[i].x + (box *(stoneS - 1))) 
+			&& (snakeY >= stone[i].y  && snakeY <= stone[i].y + (box *(stoneS - 1)))) {
+			lose("Вы проиграли");
+		}
+	}
+	/ Респаун камня /
+	if ( timeStone % timeStoneRestart == 0 && timeStone!=0 ){
+		for(let i =0 ; i < stoneCount ; i++){
+			stone[i] = {
+				x: Math.floor((Math.random() * 45 + 2)) * box,
+				y: Math.floor((Math.random() * 25 + 6)) * box, 
+			};
+		}
+		timeStone = 0;		
+	}
 	
 
 	/ Проигрыш при выходе за поле  /
