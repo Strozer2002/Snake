@@ -182,7 +182,7 @@ function eatTail(head , arr){
 		}
 	}
 }
-/* Функция паузы */
+/* Функция сложности игры */
 document.getElementById('eazyGame').addEventListener('click', function eazyGame() {
     alert("gameKey = 0");
     gameKey = 0;
