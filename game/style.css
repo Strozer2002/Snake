@@ -60,3 +60,10 @@ img {
   justify-content: space-between;
   padding-bottom: 10px;
 }
+#button_level{
+  display: flex;
+  flex-direction: column;
+}
+#eazyGame{
+  margin-bottom: 20px;
+}
